@@ -257,52 +257,6 @@ exports.testCmd = (rl, id) => {
  *
  * @param rl Objeto readline usado para implementar el CLI
  */
-exports.playCmd = function(rl) {
-    let score = 0;
-    let quizzes = model.getAll();
-
-    const playOne = () => {
-        if (quizzes.length === 0) {
-            log('No hay nada más que preguntar');
-            fin();
-            rl.prompt();
-        } else {
-            let id = Math.floor(Math.random() * quizzes.length);
-            let quiz = quizzes[id];
-            rl.question(colorize(quiz.question + '? ', 'red'), (answer) => {
-                let raw = `^${quiz.answer}$`;
-                let respuesta = new RegExp(raw, 'gim');
-                if (respuesta.test(answer)) {
-                    score++;
-                    let aciertos = (score >= 2) ? "aciertos" : "acierto";
-                    log(`CORRECTO - Lleva ${score} ${aciertos}.`);
-                    quizzes.splice(id, 1);
-                    playOne();
-                } else {
-                    log (`INCORRECTO. La respuesta correcta era: ${colorize(quiz.answer, 'magenta')}`);
-                    fin();
-                    rl.prompt();
-                }
-            });
-        }
-    };
-
-    const fin = () => {
-        log(`Fin del juego. Aciertos:`);
-        biglog(score, 'magenta');
-    }
-
-    playOne();
-};
-
-/*
-exports.playCmd = (rl) => {
-    let score = 0;
-    let quizzes = models.quiz.findAll();
-    // cargar en un array las preguntas
-};
-*/
-
 exports.playCmd = (rl) => {
     let score = 0;
     let toBePlayed = [];
@@ -355,48 +309,6 @@ exports.playCmd = (rl) => {
         biglog(score, 'magenta');
     };
 };
-
-/* 
-exports.playCmd = function(rl) {
-    let score = 0;
-    let toBeResolved = [];
-    let quizzes = model.getAll();
-    for (let i = 0; i < quizzes.length; i++) {
-        toBeResolved.push(i);
-    }
-
-    const playOne = () => {
-        if (toBeResolved.length === 0) {
-            log('No hay nada más que preguntar');
-            fin();
-            rl.prompt();
-        } else {
-            let id = Math.floor((Math.random() * toBeResolved.length));
-            let quiz = quizzes[id];
-            rl.question(`${colorize(quiz.question, 'red')}${colorize('?', 'red')} `, (answer) => {
-                if (answer.trim().toLowerCase() === quiz.answer.toLowerCase()) {
-                    score++;
-                    log(`CORRECTO - Lleva ${score} acierto/s.`);
-                    toBeResolved.splice(id, 1);
-                    quizzes.splice(id, 1);
-                    playOne();
-                } else {
-                    log (`INCORRECTO.`);
-                    fin();
-                    rl.prompt();
-                }
-            });
-        }
-    };
-
-    const fin = () => {
-        log(`Fin del examen. Aciertos:`);
-        biglog(score, 'magenta');
-    }
-
-    playOne();
-};
-*/
 
 /**
  * Muestra los nombres de los autores de la práctica.
