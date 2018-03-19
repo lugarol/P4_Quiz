@@ -128,7 +128,7 @@ const makeQuestion = (rl, text) => {
  * @param rl Objeto readline usado para implementar el CLI
  */
 exports.addCmd = (rl) => {
-    makeQuestion(rl, `Introduzca una pregunta: `)
+    return makeQuestion(rl, `Introduzca una pregunta: `)
     .then(q => {
         return makeQuestion(rl, `Introduzca la respuesta: `)
         .then(a => {
@@ -189,7 +189,7 @@ exports.editCmd = (rl, id) => {
             throw new Error(`No existe un quiz asociado al id=${id}`);
         }
         process.stdout.isTTY && setTimeout(() => {rl.write(quiz.question)}, 0);
-        makeQuestion(rl, 'Introduzca la pregunta: ')
+        return makeQuestion(rl, 'Introduzca la pregunta: ')
         .then(q => {
             process.stdout.isTTY && setTimeout(() => {rl.write(quiz.answer)}, 0);
             return makeQuestion(rl, 'Introduzca la respuesta: ')
@@ -231,7 +231,7 @@ exports.testCmd = (rl, id) => {
         if (!quiz) {
             throw new Error(`No existe un quiz asociado al id=${id}`);
         }
-        makeQuestion(rl, `${colorize('¿', 'red')}${colorize(quiz.question, 'red')}${colorize('?', 'red')} `)
+        return makeQuestion(rl, `${colorize('¿', 'red')}${colorize(quiz.question, 'red')}${colorize('?', 'red')} `)
         .then(answer => {
             if (answer.trim().toLowerCase() === quiz.answer.trim().toLowerCase()) {
                 log(`Correcto`);
@@ -240,7 +240,7 @@ exports.testCmd = (rl, id) => {
                 log(`Incorrecto`);
                 biglog('Incorrecto', 'red');
             }
-            rl.prompt();
+            // rl.prompt();
         });
     })
     .catch(error => {
@@ -273,7 +273,7 @@ exports.playCmd = (rl) => {
             let quiz = toBePlayed[pos];
             toBePlayed.splice(pos, 1);
 
-            makeQuestion(rl, `¿${quiz.question}? `)
+            return makeQuestion(rl, `¿${quiz.question}? `)
             .then(answer => {
                 if (answer.trim().toLowerCase() === quiz.answer.trim().toLowerCase()) {
                     score++;
