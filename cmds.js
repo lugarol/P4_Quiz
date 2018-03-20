@@ -57,7 +57,7 @@ exports.listCmd = (socket, rl) => {
  * 
  * @param id Parámetro con el índice a validar.
  */
-const validateId = (socket, id) => {
+const validateId = (id) => {
     return new Sequelize.Promise((resolve, reject) => {
         if (typeof id === 'undefined') {
             reject(new Error(`Falta el parámetro <id>`));
@@ -127,7 +127,7 @@ const makeQuestion = (rl, text) => {
  *
  * @param rl Objeto readline usado para implementar el CLI
  */
-exports.addCmd = (rl) => {
+exports.addCmd = (socket, rl) => {
     return makeQuestion(rl, `Introduzca una pregunta: `)
     .then(q => {
         return makeQuestion(rl, `Introduzca la respuesta: `)
@@ -265,7 +265,6 @@ exports.playCmd = (socket, rl) => {
         return new Promise((resolve, reject) => {
             if (toBePlayed.length <= 0) {
                 log(socket, `No hay nada más que preguntar.`);
-                //fin();
                 resolve();
                 return;
             }
@@ -282,7 +281,6 @@ exports.playCmd = (socket, rl) => {
                     resolve(playOne());
                 } else {
                     log (socket, `INCORRECTO. La respuesta correcta era: ${colorize(quiz.answer, 'magenta')}`);
-                    //fin();
                     resolve();
                 }
             });
@@ -315,7 +313,7 @@ exports.playCmd = (socket, rl) => {
  *
  * @param rl Objeto readline usado para implementar el CLI
  */
-exports.creditsCmd = function(socket, rl) {
+exports.creditsCmd = (socket, rl) => {
     return new Promise((resolve, reject) => {
         log(socket, 'Autores de la práctica');
         log(socket, 'Eros García Arroyo', 'green');
@@ -330,7 +328,7 @@ exports.creditsCmd = function(socket, rl) {
  *
  * @param rl Objeto readline usado para implementar el CLI
  */
-exports.quitCmd = function(socket, rl) {
+exports.quitCmd = (socket, rl) => {
     rl.close();
     socket.end();
 };
