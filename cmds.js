@@ -317,9 +317,9 @@ exports.playCmd = (socket, rl) => {
  */
 exports.creditsCmd = function(socket, rl) {
     return new Promise((resolve, reject) => {
-        log('Autores de la práctica');
-        log('Eros García Arroyo', 'green');
-        log('Luis García Olivares', 'green');
+        log(socket, 'Autores de la práctica');
+        log(socket, 'Eros García Arroyo', 'green');
+        log(socket, 'Luis García Olivares', 'green');
         rl.prompt();
         resolve();
     });
