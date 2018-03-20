@@ -10,7 +10,7 @@ net.createServer((socket) => {
     console.log(`Se ha conectado un cliente desde ${socket.remoteAddress}`);
 
     // Mensaje inicial
-    biglog('CORE Quiz', 'green');
+    biglog(socket, 'CORE Quiz', 'green');
 
     const rl = readline.createInterface({
         input: socket,
